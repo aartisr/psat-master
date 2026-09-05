@@ -103,7 +103,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           value={filters.query}
           onChange={(e) => setFilters((prev) => ({ ...prev, query: e.target.value }))}
           placeholder="Intelligent concept search (e.g., 'slope-intercept word problem', 'systems no solution', 'inequality shaded region')..."
-          className="w-full pl-11 pr-24 py-3.5 bg-slate-50/80 hover:bg-slate-100/70 focus:bg-white border border-slate-200/90 focus:border-indigo-500 rounded-2xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-inner"
+          className="w-full pl-11 pr-24 py-3.5 bg-slate-50/80 hover:bg-slate-100/70 focus:bg-white border border-slate-200/90 focus:border-blue-600 rounded-2xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-600/10 transition-all shadow-inner"
         />
         <div className="absolute inset-y-0 right-0 pr-3 flex items-center gap-2">
           {searchTimeMs !== undefined && (
@@ -243,7 +243,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           {hasActiveFilters && (
             <button
               onClick={resetFilters}
-              className="flex items-center gap-1.5 ml-2 text-indigo-600 hover:text-indigo-800 font-bold transition-colors cursor-pointer bg-indigo-50/80 px-2.5 py-1 rounded-lg border border-indigo-100"
+              className="flex items-center gap-1.5 ml-2 text-blue-600 hover:text-blue-800 font-bold transition-colors cursor-pointer bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               Reset Filters
@@ -254,9 +254,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         {totalMatches > 0 && (
           <button
             onClick={onLaunchFilteredDrill}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-slate-900 to-indigo-950 hover:from-slate-800 hover:to-indigo-900 text-white rounded-xl font-bold transition-all shadow-xs hover:shadow-sm cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-sm cursor-pointer"
           >
-            <Zap className="w-3.5 h-3.5 fill-indigo-400 text-indigo-400" />
+            <Zap className="w-3.5 h-3.5 fill-white text-white" />
             <span>Launch Drill ({Math.min(totalMatches, 10)} Qs)</span>
           </button>
         )}

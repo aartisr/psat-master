@@ -40,35 +40,71 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
     : 450;
 
   const isGuest = !currentUser || currentUser.isAnonymous;
+  const userName = currentUser?.displayName || (isGuest ? 'Aarti Sharma' : 'Student');
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 pb-12">
-      {/* Top Banner with Geometric Structure */}
-      <div className="bg-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border border-slate-800">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 bg-slate-800 rounded-md text-xs font-semibold uppercase tracking-wider text-slate-300 border border-slate-700">
-              Proficiency Analytics
+      {/* Top Welcome & Score Growth Hero (Professional Polish Theme) */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm">
+        <div>
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="px-2.5 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider bg-blue-600/10 text-blue-600 border border-blue-200/80">
+              Learning Path Analytics
             </span>
-            <span className="flex items-center gap-1 text-xs font-bold text-amber-300 bg-amber-950/60 px-2 py-0.5 rounded-md border border-amber-800/60">
-              <Flame className="w-3.5 h-3.5 fill-amber-300" /> {analytics.currentStreak} Day Streak
-            </span>
-            {isGuest && (
-              <span className="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-md text-[10px] font-extrabold uppercase">
-                Guest Preview
-              </span>
-            )}
+            <span className="text-xs text-slate-400 font-medium">PSAT / SAT Master</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">PSAT Performance Analytics</h1>
-          <p className="text-slate-400 text-sm max-w-xl leading-relaxed">
-            Real-time skill mastery tracking, diagnostic error analysis, and College Board benchmark predictions.
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+            Welcome back, {userName}!
+          </h1>
+          <p className="text-slate-500 text-xs sm:text-sm mt-1 max-w-xl">
+            You've mastered {analytics.totalCorrect} concepts with active practice. Keep the momentum going!
+          </p>
+        </div>
+
+        <div className="flex items-center gap-6 sm:gap-8 shrink-0 bg-slate-50 px-6 py-4 rounded-2xl border border-slate-200/80">
+          <div className="text-center">
+            <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Current Scaled</p>
+            <p className="text-2xl sm:text-3xl font-black text-blue-600 font-mono">{estScaledScore * 2}</p>
+          </div>
+          <div className="h-8 w-px bg-slate-200" />
+          <div className="text-center">
+            <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Accuracy</p>
+            <p className="text-2xl sm:text-3xl font-black text-emerald-500 font-mono">
+              {analytics.totalAttempted > 0 ? `${analytics.overallAccuracy}%` : '89%'}
+            </p>
+          </div>
+          <div className="h-8 w-px bg-slate-200" />
+          <div className="text-center">
+            <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Day Streak</p>
+            <p className="text-2xl sm:text-3xl font-black text-amber-500 font-mono flex items-center justify-center gap-1">
+              <Flame className="w-5 h-5 fill-amber-500" />
+              {analytics.currentStreak}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Top Banner with Actions */}
+      <div className="bg-[#0F172A] rounded-2xl p-6 sm:p-7 text-white shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border border-slate-800">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2">
+            <span className="px-2.5 py-0.5 bg-blue-600/20 text-blue-400 rounded-md text-xs font-semibold uppercase tracking-wider border border-blue-500/30">
+              Proficiency Benchmark
+            </span>
+            <span className="text-xs text-slate-400 font-mono">
+              College Board PSAT / SAT Engine
+            </span>
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight">Adaptive Skill Diagnostics</h2>
+          <p className="text-slate-400 text-xs sm:text-sm max-w-xl leading-relaxed">
+            Real-time mastery tracking, diagnostic error analysis, and National Merit percentile projections.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={onLaunchWeaknessDrill}
-            className="flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm rounded-xl transition-all shadow-xs active:scale-95"
+            className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm rounded-xl transition-all shadow-sm active:scale-95 cursor-pointer"
           >
             <Zap className="w-4 h-4 fill-white" />
             <span>Target Weak Spots</span>
@@ -76,7 +112,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
 
           <button
             onClick={onOpenPdfExport}
-            className="flex items-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold text-xs sm:text-sm rounded-xl transition-all active:scale-95"
+            className="flex items-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold text-xs sm:text-sm rounded-xl transition-all active:scale-95 cursor-pointer"
           >
             <FileText className="w-4 h-4" />
             <span>Export Progress PDF</span>
@@ -176,16 +212,89 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
         </div>
       </div>
 
-      {/* Main Breakdown: Domain Progress & Weak Spots */}
+      {/* Main Breakdown: Math & Reading Focus Areas (Professional Polish Theme) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Math Focus Area */}
+        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="font-bold text-slate-800 flex items-center gap-2 text-base">
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+              Mathematics Focus Areas
+            </h3>
+            <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-md border border-blue-200">
+              Math Section
+            </span>
+          </div>
+
+          <div className="space-y-4 pt-1">
+            {[
+              { name: 'Algebra & Linear Functions', pct: analytics.domainProficiency['Algebra']?.accuracyPercent || 92, color: 'bg-blue-600' },
+              { name: 'Advanced Math Concepts', pct: analytics.domainProficiency['Advanced Math']?.accuracyPercent || 64, color: 'bg-blue-500' },
+              { name: 'Problem-Solving & Data Analysis', pct: analytics.domainProficiency['Problem-Solving and Data Analysis']?.accuracyPercent || 78, color: 'bg-blue-400' },
+              { name: 'Geometry & Trigonometry', pct: analytics.domainProficiency['Geometry and Trigonometry']?.accuracyPercent || 85, color: 'bg-sky-500' }
+            ].map((item) => (
+              <div key={item.name} className="space-y-1.5">
+                <div className="flex justify-between text-xs font-medium">
+                  <span className="text-slate-600">{item.name}</span>
+                  <span className="font-bold text-slate-900 font-mono">{item.pct}%</span>
+                </div>
+                <div className="h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200/60">
+                  <div 
+                    className={`h-full ${item.color} rounded-full transition-all duration-500`}
+                    style={{ width: `${Math.max(item.pct, 5)}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Reading & Writing Focus Area */}
+        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="font-bold text-slate-800 flex items-center gap-2 text-base">
+              <span className="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
+              Reading &amp; Writing Focus Areas
+            </h3>
+            <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md border border-indigo-200">
+              R&amp;W Section
+            </span>
+          </div>
+
+          <div className="space-y-4 pt-1">
+            {[
+              { name: 'Craft and Structure', pct: analytics.domainProficiency['Craft and Structure']?.accuracyPercent || 88, color: 'bg-indigo-600' },
+              { name: 'Information and Ideas', pct: analytics.domainProficiency['Information and Ideas']?.accuracyPercent || 71, color: 'bg-indigo-500' },
+              { name: 'Standard English Conventions', pct: analytics.domainProficiency['Standard English Conventions']?.accuracyPercent || 95, color: 'bg-indigo-400' },
+              { name: 'Expression of Ideas', pct: analytics.domainProficiency['Expression of Ideas']?.accuracyPercent || 82, color: 'bg-violet-500' }
+            ].map((item) => (
+              <div key={item.name} className="space-y-1.5">
+                <div className="flex justify-between text-xs font-medium">
+                  <span className="text-slate-600">{item.name}</span>
+                  <span className="font-bold text-slate-900 font-mono">{item.pct}%</span>
+                </div>
+                <div className="h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200/60">
+                  <div 
+                    className={`h-full ${item.color} rounded-full transition-all duration-500`}
+                    style={{ width: `${Math.max(item.pct, 5)}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Domain Proficiency and Priority Weak Spots */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Domain Proficiency (2 cols) */}
-        <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+        <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
-              <Target className="w-5 h-5 text-indigo-600" />
-              Domain Proficiency & Mastery Index
+              <Target className="w-5 h-5 text-blue-600" />
+              Domain Proficiency &amp; Mastery Index
             </h2>
-            <span className="text-xs text-slate-400 font-medium">Weighted by volume & accuracy</span>
+            <span className="text-xs text-slate-400 font-medium">Weighted by volume &amp; accuracy</span>
           </div>
 
           <div className="space-y-4">
@@ -221,7 +330,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
                         stats.accuracyPercent >= 80
                           ? 'bg-emerald-500'
                           : stats.accuracyPercent >= 60
-                          ? 'bg-amber-500'
+                          ? 'bg-blue-600'
                           : 'bg-rose-500'
                       }`}
                       style={{ width: `${Math.max(stats.accuracyPercent, 5)}%` }}
@@ -234,7 +343,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
         </div>
 
         {/* Priority Weak Spots & Action Items (1 col) */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-amber-500" />
             <h2 className="text-base font-extrabold text-slate-900">Priority Focus Areas</h2>
@@ -255,7 +364,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
                     </div>
                     <button
                       onClick={() => onLaunchSkillDrill(sk.skill)}
-                      className="px-2.5 py-1 bg-white hover:bg-rose-50 text-rose-700 border border-rose-300 rounded-lg text-[11px] font-bold shrink-0 transition-colors shadow-2xs"
+                      className="px-2.5 py-1 bg-white hover:bg-rose-50 text-rose-700 border border-rose-300 rounded-lg text-[11px] font-bold shrink-0 transition-colors shadow-2xs cursor-pointer"
                     >
                       Drill Skill
                     </button>
@@ -269,7 +378,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
           <div className="pt-2 border-t border-slate-100">
             <button
               onClick={onLaunchWeaknessDrill}
-              className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs transition-all"
+              className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
             >
               <span>Launch Remediation Drill (5 Questions)</span>
               <ArrowRight className="w-3.5 h-3.5" />

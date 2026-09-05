@@ -46,17 +46,17 @@ export const SmartDrillsHub: React.FC<SmartDrillsHubProps> = ({
   return (
     <div className="max-w-7xl mx-auto space-y-6 pb-12">
       {/* Top Banner */}
-      <div className="bg-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xs border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-[#0F172A] rounded-2xl p-6 sm:p-8 text-white shadow-sm border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 bg-indigo-900/60 rounded-md text-xs font-semibold uppercase tracking-wider text-indigo-300 border border-indigo-700/50">
+            <span className="px-2.5 py-0.5 bg-blue-600/20 text-blue-400 rounded-md text-xs font-semibold uppercase tracking-wider border border-blue-500/30">
               Adaptive Practice Engine
             </span>
             <span className="flex items-center gap-1 text-xs font-bold text-amber-300 bg-amber-950/60 px-2 py-0.5 rounded-md border border-amber-800/60">
               <Flame className="w-3.5 h-3.5 fill-amber-300" /> {analytics.currentStreak} Day Streak
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Smart Adaptive Drills</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Smart Adaptive Drills</h1>
           <p className="text-slate-400 text-xs sm:text-sm max-w-xl">
             Targeted high-efficiency sprints engineered to simulate the College Board Digital PSAT/SAT environment.
           </p>
@@ -65,7 +65,7 @@ export const SmartDrillsHub: React.FC<SmartDrillsHubProps> = ({
         {/* Featured Daily Sprint Action */}
         <button
           onClick={onLaunchDailyDrill}
-          className="flex items-center gap-2.5 px-6 py-3.5 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-extrabold text-sm rounded-xl shadow-lg shadow-indigo-950/30 transition-all active:scale-95 shrink-0"
+          className="flex items-center gap-2.5 px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl shadow-sm transition-all active:scale-95 shrink-0 cursor-pointer"
         >
           <Zap className="w-5 h-5 fill-white" />
           <span>Launch Today's Daily Sprint (5 Qs)</span>
@@ -75,12 +75,12 @@ export const SmartDrillsHub: React.FC<SmartDrillsHubProps> = ({
       {/* Grid of Adaptive Drill Types */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {/* 1. Daily Sprint */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4">
           <div className="space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
               <Zap className="w-5 h-5" />
             </div>
-            <h2 className="text-base font-extrabold text-slate-900">Adaptive Daily Sprint</h2>
+            <h2 className="text-base font-bold text-slate-900">Adaptive Daily Sprint</h2>
             <p className="text-xs text-slate-600 leading-relaxed">
               5 balanced questions spanning Math & Reading to maintain your daily streak and sharpen problem-solving reflexes.
             </p>
@@ -92,7 +92,7 @@ export const SmartDrillsHub: React.FC<SmartDrillsHubProps> = ({
           </div>
           <button
             onClick={onLaunchDailyDrill}
-            className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl transition-colors shadow-2xs flex items-center justify-center gap-1.5"
+            className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl transition-colors shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
           >
             <span>Start Daily Sprint</span>
             <ArrowRight className="w-3.5 h-3.5" />

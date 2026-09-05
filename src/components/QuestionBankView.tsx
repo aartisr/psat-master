@@ -43,44 +43,41 @@ export const QuestionBankView: React.FC<QuestionBankViewProps> = React.memo(({ o
 
   return (
     <div className="space-y-6">
-      {/* Quick Hero Banner */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-white via-indigo-50/30 to-slate-50 rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] flex flex-col md:flex-row items-start md:items-center justify-between gap-6 ring-1 ring-slate-900/5">
-        <div className="space-y-2.5 relative z-10">
+      {/* Quick Hero Banner (Professional Polish Theme) */}
+      <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="space-y-2.5">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-3 py-1 rounded-lg bg-slate-900 text-white font-extrabold text-[11px] uppercase tracking-wider shadow-2xs">
+            <span className="px-3 py-1 rounded-md bg-[#0F172A] text-white font-bold text-[11px] uppercase tracking-wider shadow-2xs">
               College Board Standard
             </span>
-            <span className="text-xs text-slate-500 font-semibold flex items-center gap-1 bg-white/80 px-2.5 py-1 rounded-lg border border-slate-200/80 shadow-2xs">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600" /> PSAT 8/9, 10 &amp; NMSQT
+            <span className="text-xs text-blue-600 font-semibold flex items-center gap-1 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200">
+              <Sparkles className="w-3.5 h-3.5 text-blue-600" /> PSAT 8/9, 10 &amp; NMSQT
             </span>
             {(!currentUser || currentUser.isAnonymous) && (
-              <span className="text-xs text-emerald-800 font-bold flex items-center gap-1 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/80 shadow-2xs">
+              <span className="text-xs text-emerald-800 font-bold flex items-center gap-1 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
                 <Zap className="w-3.5 h-3.5 text-emerald-600" /> Free Guest Practice · No Sign-in Needed
               </span>
             )}
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
             Interactive Practice &amp; Mastery Bank
           </h1>
-          <p className="text-slate-600 text-xs sm:text-sm max-w-2xl leading-relaxed">
+          <p className="text-slate-500 text-xs sm:text-sm max-w-2xl leading-relaxed">
             Targeted concept mastery featuring 3-tiered Socratic hints, exact coordinate graphing, desmos shortcuts, and deep analytical explanations.
           </p>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0 relative z-10">
+        <div className="flex items-center gap-3 shrink-0">
           <Button
-            variant="gradient"
+            variant="primary"
             size="md"
             onClick={launchDailyDrill}
             leftIcon={<Zap className="w-4 h-4 fill-white" />}
-            className="shadow-md shadow-indigo-500/20"
+            className="shadow-sm"
           >
             Launch Daily Sprint (5 Qs)
           </Button>
         </div>
-
-        {/* Subtle decorative ambient glow behind banner */}
-        <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
       </div>
 
       {/* Granular Multi-Filter & Search Bar */}

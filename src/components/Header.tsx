@@ -119,15 +119,15 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => setActiveTab('bank')}
               className="group flex items-center gap-2 text-left focus:outline-none cursor-pointer transition-transform duration-200 hover:scale-[1.01]"
             >
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center text-white shadow-sm ring-1 ring-slate-800/60 group-hover:ring-indigo-500/40 transition-all">
-                <Target className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2] text-indigo-400 group-hover:rotate-45 transition-transform duration-300" />
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-sm shadow-blue-500/20 group-hover:bg-blue-500 transition-all">
+                P
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <span className="font-black text-slate-900 tracking-tight text-base sm:text-lg">
-                    PSAT Master<span className="text-indigo-600">.</span>
+                  <span className="font-bold text-slate-900 tracking-tight text-base sm:text-lg">
+                    PSAT Master
                   </span>
-                  <span className="px-1.5 py-0.5 text-[9px] font-extrabold tracking-wider uppercase bg-indigo-50/90 text-indigo-700 border border-indigo-200/80 rounded-md shadow-2xs">
+                  <span className="px-1.5 py-0.5 text-[9px] font-extrabold tracking-wider uppercase bg-blue-50 text-blue-700 border border-blue-200/80 rounded-md shadow-2xs">
                     PRO
                   </span>
                 </div>
@@ -144,7 +144,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => setActiveTab('bank')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
                 activeTab === 'bank'
-                  ? 'bg-white text-indigo-600 shadow-xs ring-1 ring-slate-900/5'
+                  ? 'bg-white text-blue-600 shadow-xs ring-1 ring-slate-900/5'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
               }`}
             >
@@ -157,7 +157,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => setActiveTab('smart_drills')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
                 activeTab === 'smart_drills'
-                  ? 'bg-white text-indigo-600 shadow-xs ring-1 ring-slate-900/5'
+                  ? 'bg-white text-blue-600 shadow-xs ring-1 ring-slate-900/5'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
               }`}
             >
@@ -188,7 +188,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => setActiveTab('analytics')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
                 activeTab === 'analytics'
-                  ? 'bg-white text-indigo-600 shadow-xs ring-1 ring-slate-900/5'
+                  ? 'bg-white text-blue-600 shadow-xs ring-1 ring-slate-900/5'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
               }`}
             >
@@ -202,7 +202,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={() => setShowMoreMenu(!showMoreMenu)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
                   isMoreActive
-                    ? 'bg-white text-indigo-600 shadow-xs ring-1 ring-slate-900/5'
+                    ? 'bg-white text-blue-600 shadow-xs ring-1 ring-slate-900/5'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
                 }`}
               >
@@ -219,10 +219,10 @@ export const Header: React.FC<HeaderProps> = ({
                       setShowMoreMenu(false);
                     }}
                     className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
-                      activeTab === 'cheats' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-slate-100/80'
+                      activeTab === 'cheats' ? 'bg-blue-50 text-blue-700' : 'text-slate-700 hover:bg-slate-100/80'
                     }`}
                   >
-                    <BookOpen className="w-4 h-4 text-indigo-600 shrink-0" />
+                    <BookOpen className="w-4 h-4 text-blue-600 shrink-0" />
                     <div className="text-left">
                       <div>Cheat Sheets</div>
                       <div className="text-[10px] text-slate-400 font-normal">Math &amp; Reading formula notes</div>
@@ -235,10 +235,10 @@ export const Header: React.FC<HeaderProps> = ({
                       setShowMoreMenu(false);
                     }}
                     className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
-                      activeTab === 'feedback' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-slate-100/80'
+                      activeTab === 'feedback' ? 'bg-blue-50 text-blue-700' : 'text-slate-700 hover:bg-slate-100/80'
                     }`}
                   >
-                    <MessageSquarePlus className="w-4 h-4 text-indigo-600 shrink-0" />
+                    <MessageSquarePlus className="w-4 h-4 text-blue-600 shrink-0" />
                     <div className="text-left">
                       <div>Feedback &amp; Roadmap</div>
                       <div className="text-[10px] text-slate-400 font-normal">Report issues or request features</div>
@@ -343,12 +343,19 @@ export const Header: React.FC<HeaderProps> = ({
               )}
             </div>
 
+            {/* Days to Exam Countdown */}
+            <div className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-xl text-slate-700 text-xs font-medium shadow-2xs">
+              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Exam:</span>
+              <span className="font-bold text-slate-900 font-mono">42 Days</span>
+              <span className="text-[10px] text-slate-500">· Oct 12</span>
+            </div>
+
             {/* Score Goal / Projector */}
             {onOpenScoreSimulator && (
               <button
                 onClick={onOpenScoreSimulator}
                 title="PSAT / SAT Score Goal & National Merit Index Simulator"
-                className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100/80 border border-amber-200/80 rounded-2xl text-amber-900 text-xs font-black shadow-2xs transition-all cursor-pointer active:scale-95"
+                className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100/80 border border-amber-200/80 rounded-xl text-amber-900 text-xs font-black shadow-2xs transition-all cursor-pointer active:scale-95"
               >
                 <Trophy className="w-3.5 h-3.5 text-amber-600 fill-amber-500" />
                 <span className="hidden lg:inline">Score Goal</span>
@@ -367,7 +374,7 @@ export const Header: React.FC<HeaderProps> = ({
             )}
 
             {/* Daily Streak */}
-            <div className="hidden lg:flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/90 rounded-2xl text-amber-950 text-xs font-bold shadow-2xs">
+            <div className="hidden lg:flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/90 rounded-xl text-amber-950 text-xs font-bold shadow-2xs">
               <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500 animate-pulse" />
               <span>{streak}d</span>
             </div>
@@ -375,7 +382,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Sprint CTA */}
             <button
               onClick={onOpenQuickDrill}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white rounded-2xl text-xs font-bold shadow-xs shadow-indigo-600/25 transition-all active:scale-95 cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-sm shadow-blue-500/20 transition-all active:scale-95 cursor-pointer"
             >
               <Zap className="w-3.5 h-3.5 fill-white shrink-0" />
               <span>Sprint</span>
@@ -385,7 +392,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={onOpenPdfExport}
               title="Export PSAT Progress Report PDF"
-              className="p-2 text-slate-600 hover:text-indigo-600 bg-white hover:bg-slate-50 border border-slate-200/80 rounded-2xl transition-all shadow-2xs hidden md:block cursor-pointer"
+              className="p-2 text-slate-600 hover:text-blue-600 bg-white hover:bg-slate-50 border border-slate-200/80 rounded-xl transition-all shadow-2xs hidden md:block cursor-pointer"
             >
               <FileText className="w-4 h-4" />
             </button>
@@ -394,24 +401,29 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="relative" ref={userMenuRef}>
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white hover:bg-slate-50 border border-slate-200/80 rounded-2xl text-xs font-bold text-slate-700 transition-all shadow-2xs cursor-pointer ring-1 ring-slate-900/5 shrink-0"
+                className="flex items-center gap-2 px-3 py-1.5 bg-white hover:bg-slate-50 border border-slate-200/90 rounded-xl text-xs font-bold text-slate-700 transition-all shadow-sm cursor-pointer shrink-0"
               >
                 {user?.photoURL ? (
                   <img
                     src={user.photoURL}
                     alt="avatar"
                     referrerPolicy="no-referrer"
-                    className="w-5 h-5 rounded-full object-cover ring-1 ring-slate-200 shrink-0"
+                    className="w-6 h-6 rounded-full object-cover ring-1 ring-slate-300 shrink-0"
                   />
                 ) : (
-                  <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-700 text-white flex items-center justify-center font-bold text-[10px] shadow-2xs shrink-0">
-                    {user?.displayName ? user.displayName.charAt(0).toUpperCase() : 'G'}
+                  <div className="w-6 h-6 rounded-full bg-slate-200 border border-slate-300 text-slate-700 flex items-center justify-center font-bold text-[11px] shrink-0">
+                    {user?.displayName ? user.displayName.slice(0, 2).toUpperCase() : 'AS'}
                   </div>
                 )}
                 
-                <span className="hidden xl:inline font-bold text-slate-800 max-w-[80px] truncate">
-                  {user?.displayName || (isAdmin ? 'Admin' : 'Guest')}
-                </span>
+                <div className="text-left hidden xl:block">
+                  <p className="font-bold text-slate-900 text-xs leading-none">
+                    {user?.displayName || 'Aarti Sharma'}
+                  </p>
+                  <p className="text-[10px] text-slate-400 font-normal leading-tight mt-0.5">
+                    {isAdmin ? 'Admin' : 'Pro Plan Member'}
+                  </p>
+                </div>
 
                 <ChevronDown className="w-3 h-3 text-slate-400 transition-transform duration-200" />
               </button>
