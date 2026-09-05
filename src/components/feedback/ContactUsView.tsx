@@ -394,7 +394,7 @@ export const ContactUsView: React.FC<ContactUsViewProps> = ({
                 <School className="w-3.5 h-3.5 text-amber-300" /> Saugus, Massachusetts
               </div>
               <h3 className="text-lg font-black tracking-tight">
-                Dedicated to PCSS II &amp; Aarti S Ravikumar
+                Dedicated to PCSS II by Aarti S Ravikumar
               </h3>
               <p className="text-xs text-indigo-200/90 leading-relaxed">
                 Created with pride for the students and faculty at Pioneer Charter School of Science II. Inquiries from teachers, parent coaches, and students are given highest priority.
