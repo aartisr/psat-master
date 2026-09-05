@@ -1,0 +1,142 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user basic info and settings",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "lastActive": { "type": "string" }
+      },
+      "required": ["id"]
+    },
+    "UserAttempt": {
+      "title": "User Question Attempt",
+      "description": "Log of question attempts with timings, hints, and results",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "questionId": { "type": "string" },
+        "userAnswer": { "type": "string" },
+        "isCorrect": { "type": "boolean" },
+        "timeSpentSeconds": { "type": "number" },
+        "hintsRevealed": { "type": "number" },
+        "domain": { "type": "string" },
+        "skill": { "type": "string" },
+        "difficulty": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "userId", "questionId", "isCorrect", "timestamp"]
+    },
+    "CustomQuestion": {
+      "title": "Custom Imported Question",
+      "description": "Custom questions imported from PDFs or text",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "assessment": { "type": "string" },
+        "test": { "type": "string" },
+        "domain": { "type": "string" },
+        "skill": { "type": "string" },
+        "difficulty": { "type": "string" },
+        "questionText": { "type": "string" },
+        "options": { "type": "array" },
+        "correctAnswer": { "type": "string" },
+        "rationales": { "type": "object" },
+        "hints": { "type": "array" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "userId", "questionText", "correctAnswer"]
+    },
+    "UserAnalytics": {
+      "title": "User Performance Analytics",
+      "description": "Pre-computed proficiency, metrics, and streaks for fast dashboard loading",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "totalAttempted": { "type": "number" },
+        "totalCorrect": { "type": "number" },
+        "overallAccuracy": { "type": "number" },
+        "streak": { "type": "number" },
+        "lastStreakDate": { "type": "string" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["userId", "updatedAt"]
+    },
+    "FeedbackReport": {
+      "title": "Feedback and Bug Report",
+      "description": "Reports for bugs, question issues, ideas, or contact requests",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ticketNumber": { "type": "string" },
+        "category": { "type": "string" },
+        "subject": { "type": "string" },
+        "description": { "type": "string" },
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "questionId": { "type": "string" },
+        "severity": { "type": "string" },
+        "clientDiagnostics": { "type": "object" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "ticketNumber", "category", "subject", "description", "createdAt"]
+    },
+    "FeatureRequest": {
+      "title": "Community Feature Request",
+      "description": "User submitted feature suggestions with upvotes and roadmap status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "targetGroup": { "type": "string" },
+        "status": { "type": "string" },
+        "upvotes": { "type": "number" },
+        "authorName": { "type": "string" },
+        "authorUid": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "title", "description", "category", "status", "upvotes", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users": {
+      "schema": "UserProfile",
+      "description": "User documents keyed by Auth UID",
+      "subcollections": {
+        "attempts": {
+          "schema": "UserAttempt",
+          "description": "Per-user practice question attempts"
+        },
+        "custom_questions": {
+          "schema": "CustomQuestion",
+          "description": "Questions imported by this user"
+        },
+        "bookmarks": {
+          "description": "Question IDs bookmarked by user"
+        },
+        "analytics": {
+          "schema": "UserAnalytics",
+          "description": "Aggregated stats summary for user"
+        }
+      }
+    },
+    "feedback": {
+      "schema": "FeedbackReport",
+      "description": "Contact submissions and bug reports"
+    },
+    "feature_requests": {
+      "schema": "FeatureRequest",
+      "description": "Public community roadmap and feature requests"
+    }
+  }
+}
