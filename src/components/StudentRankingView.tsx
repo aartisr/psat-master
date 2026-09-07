@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { fetchLeaderboard, syncLeaderboardEntry } from '../lib/firebase';
 import { 
   Trophy, 
   Award, 
@@ -56,6 +57,38 @@ export const StudentRankingView: React.FC<StudentRankingViewProps> = ({
 }) => {
   const isAuthenticated = !!(currentUser && !currentUser.isAnonymous);
   const [selectedDivision, setSelectedDivision] = useState<'overall' | 'accuracy' | 'streak'>('overall');
+  const [realLeaderboard, setRealLeaderboard] = useState<LeaderboardEntry[]>([]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      // Fetch others
+      fetchLeaderboard().then(entries => {
+        const mapped = entries.filter(e => e.userId !== currentUser?.uid).map((e, idx) => ({
+          rank: idx + 1,
+          name: e.displayName || 'Anonymous Scholar',
+          avatarBg: 'bg-slate-200 text-slate-800',
+          level: e.level || 1,
+          tierName: e.tierName || 'PSAT Novice',
+          totalXp: e.totalXp || 0,
+          accuracy: e.accuracy || 0,
+          streak: e.streak || 0,
+          isCurrentUser: false
+        }));
+        setRealLeaderboard(mapped);
+      });
+      
+      // Sync self
+      syncLeaderboardEntry(currentUser!.uid, {
+        displayName: currentUser?.displayName || currentUser?.email?.split('@')[0] || 'You (Verified Scholar)',
+        level: currentTier.level,
+        tierName: currentTier.name,
+        totalXp: totalXp,
+        accuracy: analytics.overallAccuracy,
+        streak: streak
+      });
+    }
+  }, [isAuthenticated, totalXp, currentUser, analytics.overallAccuracy, streak, currentTier.level, currentTier.name]);
+
 
   // Compute authenticated XP
   // 50 XP per correct question, 10 XP per attempt, 100 XP per streak day
@@ -171,13 +204,14 @@ export const StudentRankingView: React.FC<StudentRankingViewProps> = ({
 
   const unlockedCount = badges.filter((b) => b.unlocked).length;
 
-  // Cohort Leaderboard Data
-  const baseLeaderboard: LeaderboardEntry[] = [
+  // Cohort Leaderboard Data (Real data would be fetched here, currently empty for real users)
+  const baseLeaderboard: LeaderboardEntry[] = realLeaderboard;
+
+  // Preview Leaderboard Data for Unauthenticated Marketing View
+  const previewLeaderboard: LeaderboardEntry[] = [
     { rank: 1, name: 'Maya L. (Thomas Jefferson High)', avatarBg: 'bg-amber-600', level: 5, tierName: '99th Percentile Master', totalXp: 4820, accuracy: 96, streak: 28 },
     { rank: 2, name: 'David C. (Stuyvesant High)', avatarBg: 'bg-blue-600', level: 5, tierName: '99th Percentile Master', totalXp: 4150, accuracy: 94, streak: 21 },
-    { rank: 3, name: 'Aarti S. (Austin Academy)', avatarBg: 'bg-indigo-600', level: 4, tierName: 'National Merit Contender', totalXp: 3420, accuracy: 91, streak: 15 },
-    { rank: 4, name: 'Ethan W. (Monta Vista High)', avatarBg: 'bg-purple-600', level: 4, tierName: 'National Merit Contender', totalXp: 2890, accuracy: 89, streak: 12 },
-    { rank: 5, name: 'Sophia R. (Lexington High)', avatarBg: 'bg-emerald-600', level: 3, tierName: 'Algebra & R&W Scholar', totalXp: 2150, accuracy: 87, streak: 9 }
+    { rank: 3, name: 'Aarti S. (Austin Academy)', avatarBg: 'bg-indigo-600', level: 4, tierName: 'National Merit Contender', totalXp: 3420, accuracy: 91, streak: 15 }
   ];
 
   // Current user's dynamic entry in leaderboard
@@ -301,7 +335,7 @@ export const StudentRankingView: React.FC<StudentRankingViewProps> = ({
           </div>
 
           <div className="divide-y divide-slate-100 relative">
-            {baseLeaderboard.slice(0, 3).map((student) => (
+            {previewLeaderboard.map((student) => (
               <div key={student.rank} className="p-4 sm:px-6 flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <div className="w-7 h-7 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-xs">

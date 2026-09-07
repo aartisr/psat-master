@@ -953,3 +953,31 @@ export async function toggleFeatureVote(featureId: string, userId: string): Prom
   return { upvotes: target.upvotes, hasVoted: !hasVoted };
 }
 
+
+export async function syncLeaderboardEntry(userId: string, entry: any): Promise<void> {
+  if (!userId || !auth.currentUser || isFirebaseQuotaExceeded) return;
+  try {
+    const docRef = doc(db, 'leaderboard', userId);
+    await setDoc(docRef, {
+      ...entry,
+      updatedAt: Date.now()
+    }, { merge: true });
+  } catch (e) {
+    handleFirebaseError(e, 'Failed to sync leaderboard entry to Firestore');
+  }
+}
+
+export async function fetchLeaderboard(): Promise<any[]> {
+  if (isFirebaseQuotaExceeded) return [];
+  try {
+    const q = collection(db, 'leaderboard');
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({
+      userId: doc.id,
+      ...doc.data()
+    }));
+  } catch (e) {
+    handleFirebaseError(e, 'Failed to fetch leaderboard from Firestore');
+    return [];
+  }
+}
