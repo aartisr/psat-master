@@ -80,6 +80,8 @@ MathView.displayName = 'MathView';
  * Determines whether text between dollar signs is actual LaTeX math or currency
  */
 function isTrueMathContent(inner: string): boolean {
+  if (inner.includes('\uE000')) return false;
+
   const trimmed = inner.trim();
   if (!trimmed) return false;
 
@@ -103,7 +105,7 @@ function isTrueMathContent(inner: string): boolean {
   if (/^[+-]?\d+(\.\d+)?$/.test(trimmed)) return true;
 
   // Contains math operators: =, +, -, *, /, ^, _, <, >, \le, \ge, ≤, ≥, etc.
-  if (/[=+\\^_\/<>≤≥≠±·×()]/.test(trimmed)) {
+  if (/[=+\-*\\^_\/<>≤≥≠±·×()]/.test(trimmed)) {
     // Check if it looks like an English sentence between two separate currency signs
     const englishWords = (trimmed.match(/\b(and|or|for|to|spent|charges|equipment|per|hour|cost|bought|the|is|in|of|each|total|dollars)\b/gi) || []).length;
     if (englishWords >= 2) return false;

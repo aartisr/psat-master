@@ -41,7 +41,8 @@ export const BluebookScoreReportView: React.FC<BluebookScoreReportViewProps> = (
   const markedIds: string[] = [];
 
   Object.entries(result.answers as Record<string, PracticeTestAnswerRecord>).forEach(([id, rec]) => {
-    if (!rec.isCorrect) missedIds.push(id);
+    const isCorrect = typeof rec.isCorrect === 'object' ? (rec.isCorrect as any).isCorrect : !!rec.isCorrect;
+    if (!isCorrect) missedIds.push(id);
     else correctIds.push(id);
     if (rec.markedForReview) markedIds.push(id);
   });
@@ -52,8 +53,9 @@ export const BluebookScoreReportView: React.FC<BluebookScoreReportViewProps> = (
   const allResultQuestionIds = Object.keys(result.questions);
   const filteredQuestionIds = allResultQuestionIds.filter((id) => {
     const rec = (result.answers as Record<string, PracticeTestAnswerRecord>)[id];
-    if (activeFilter === 'incorrect') return !rec?.isCorrect;
-    if (activeFilter === 'correct') return !!rec?.isCorrect;
+    const isCorrect = rec ? (typeof rec.isCorrect === 'object' ? (rec.isCorrect as any).isCorrect : !!rec.isCorrect) : false;
+    if (activeFilter === 'incorrect') return !isCorrect;
+    if (activeFilter === 'correct') return isCorrect;
     if (activeFilter === 'marked') return !!rec?.markedForReview;
     return true;
   });
@@ -290,6 +292,7 @@ export const BluebookScoreReportView: React.FC<BluebookScoreReportViewProps> = (
           {filteredQuestionIds.map((id, index) => {
             const q = result.questions[id];
             const ans = result.answers[id];
+            const ansIsCorrect = ans ? (typeof ans.isCorrect === 'object' ? (ans.isCorrect as any).isCorrect : !!ans.isCorrect) : false;
             const isExpanded = expandedQuestionId === id;
             if (!q) return null;
 
@@ -297,7 +300,7 @@ export const BluebookScoreReportView: React.FC<BluebookScoreReportViewProps> = (
               <div
                 key={id}
                 className={`border rounded-2xl transition-all overflow-hidden ${
-                  ans?.isCorrect ? 'border-slate-200 bg-white' : 'border-rose-200 bg-rose-50/20'
+                  ansIsCorrect ? 'border-slate-200 bg-white' : 'border-rose-200 bg-rose-50/20'
                 }`}
               >
                 <button
@@ -307,7 +310,7 @@ export const BluebookScoreReportView: React.FC<BluebookScoreReportViewProps> = (
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <span className={`w-7 h-7 rounded-lg font-mono font-bold text-xs flex items-center justify-center shrink-0 ${
-                      ans?.isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                      ansIsCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
                     }`}>
                       {index + 1}
                     </span>
@@ -326,8 +329,8 @@ export const BluebookScoreReportView: React.FC<BluebookScoreReportViewProps> = (
 
                   <div className="flex items-center gap-3 shrink-0">
                     <div className="text-right">
-                      <span className={`text-xs font-bold block ${ans?.isCorrect ? 'text-emerald-700' : 'text-rose-700'}`}>
-                        {ans?.isCorrect ? 'Correct' : 'Incorrect'}
+                      <span className={`text-xs font-bold block ${ansIsCorrect ? 'text-emerald-700' : 'text-rose-700'}`}>
+                        {ansIsCorrect ? 'Correct' : 'Incorrect'}
                       </span>
                       <span className="text-[10px] text-slate-400 font-mono">
                         Your ans: {ans?.userAnswer || 'Blank'} | Correct: {q.correctAnswer}

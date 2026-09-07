@@ -208,23 +208,27 @@ export function compileTestResult(
   // Reading & Writing Evaluation
   let rwM1Correct = 0;
   rwM1QuestionIds.forEach((id) => {
-    if (answers[id]?.isCorrect) rwM1Correct++;
+    const isCorr = answers[id]?.isCorrect;
+    if (typeof isCorr === 'object' ? (isCorr as any).isCorrect : !!isCorr) rwM1Correct++;
   });
 
   let rwM2Correct = 0;
   rwM2QuestionIds.forEach((id) => {
-    if (answers[id]?.isCorrect) rwM2Correct++;
+    const isCorr = answers[id]?.isCorrect;
+    if (typeof isCorr === 'object' ? (isCorr as any).isCorrect : !!isCorr) rwM2Correct++;
   });
 
   // Math Evaluation
   let mathM1Correct = 0;
   mathM1QuestionIds.forEach((id) => {
-    if (answers[id]?.isCorrect) mathM1Correct++;
+    const isCorr = answers[id]?.isCorrect;
+    if (typeof isCorr === 'object' ? (isCorr as any).isCorrect : !!isCorr) mathM1Correct++;
   });
 
   let mathM2Correct = 0;
   mathM2QuestionIds.forEach((id) => {
-    if (answers[id]?.isCorrect) mathM2Correct++;
+    const isCorr = answers[id]?.isCorrect;
+    if (typeof isCorr === 'object' ? (isCorr as any).isCorrect : !!isCorr) mathM2Correct++;
   });
 
   // Domain Breakdown calculation
@@ -236,7 +240,8 @@ export function compileTestResult(
   allActiveIds.forEach((id) => {
     const q = questionLookup[id];
     if (!q) return;
-    const isCorrect = !!answers[id]?.isCorrect;
+    const isCorr = answers[id]?.isCorrect;
+    const isCorrect = typeof isCorr === 'object' ? (isCorr as any).isCorrect : !!isCorr;
     const targetMap = q.test === 'Reading and Writing' ? rwDomains : mathDomains;
 
     if (!targetMap[q.domain]) {

@@ -145,14 +145,14 @@ export const PracticeTestRunner: React.FC<PracticeTestRunnerProps> = ({
   // Answer selection handler
   const handleSelectAnswer = (ans: string) => {
     if (!currentQuestion) return;
-    const isCorrect = evaluateAnswer(currentQuestion, ans);
+    const evaluation = evaluateAnswer(currentQuestion, ans);
 
     setAnswers((prev) => ({
       ...prev,
       [currentQuestion.id]: {
         questionId: currentQuestion.id,
         userAnswer: ans,
-        isCorrect,
+        isCorrect: evaluation.isCorrect,
         timeSpentSeconds: (prev[currentQuestion.id]?.timeSpentSeconds || 0) + 1,
         markedForReview: prev[currentQuestion.id]?.markedForReview || false,
         eliminatedOptions: eliminatedOptionsMap[currentQuestion.id] || []
