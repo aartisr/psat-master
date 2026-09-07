@@ -1,0 +1,6 @@
+{
+  "name": "PSAT Master - Digital PSAT/NMSQT & SAT Prep Platform",
+  "description": "An ultra-intuitive, world-class Digital PSAT/NMSQT & SAT practice suite featuring adaptive smart drills, comprehensive question bank, step-by-step AI breakdowns, interactive graphing, Desmos-style scientific calculator, formula cheat-sheets, error notebook, and analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

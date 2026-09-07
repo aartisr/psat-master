@@ -1,0 +1,260 @@
+import React, { useState } from 'react';
+import { Trophy, Award, Flame, Zap, Star, Shield, ChevronRight, CheckCircle2, X, ShieldAlert, LogIn, Lock } from 'lucide-react';
+import { OverallAnalytics, UserAttempt, UserProfile } from '../types';
+
+interface GamificationBannerProps {
+  analytics: OverallAnalytics;
+  attempts: UserAttempt[];
+  currentUser?: UserProfile | null;
+  onOpenAuthModal?: () => void;
+  onNavigateToRank?: () => void;
+}
+
+interface Badge {
+  id: string;
+  name: string;
+  desc: string;
+  icon: string;
+  unlocked: boolean;
+  progress: string;
+}
+
+export const GamificationBanner: React.FC<GamificationBannerProps> = ({
+  analytics,
+  attempts,
+  currentUser,
+  onOpenAuthModal,
+  onNavigateToRank
+}) => {
+  const [showBadgesModal, setShowBadgesModal] = useState<boolean>(false);
+  const isGuest = !currentUser || currentUser.isAnonymous;
+
+  // If user is not logged in (guest), hide the entire student rank section to save real estate
+  if (isGuest) {
+    return null;
+  }
+
+  // Compute XP
+  // 50 XP per correct question, 10 XP per attempt, 100 XP per streak day
+  const totalXp = (analytics.totalCorrect * 50) + (analytics.totalAttempted * 10) + (analytics.currentStreak * 100);
+
+  // Determine Level Tier
+  const levels = [
+    { level: 1, name: 'PSAT Novice', minXp: 0, maxXp: 300, color: 'text-slate-700 bg-slate-100' },
+    { level: 2, name: 'Concept Apprentice', minXp: 300, maxXp: 800, color: 'text-blue-700 bg-blue-100' },
+    { level: 3, name: 'Algebra & R&W Scholar', minXp: 800, maxXp: 1800, color: 'text-indigo-700 bg-indigo-100' },
+    { level: 4, name: 'National Merit Contender', minXp: 1800, maxXp: 3500, color: 'text-purple-700 bg-purple-100' },
+    { level: 5, name: '99th Percentile Master', minXp: 3500, maxXp: 10000, color: 'text-amber-700 bg-amber-100' }
+  ];
+
+  const currentTier = levels.find((l) => totalXp >= l.minXp && totalXp < l.maxXp) || levels[levels.length - 1];
+  const nextTier = levels[levels.indexOf(currentTier) + 1] || currentTier;
+  const progressInTier = Math.min(
+    100,
+    Math.round(((totalXp - currentTier.minXp) / (currentTier.maxXp - currentTier.minXp)) * 100)
+  );
+
+  // Compute Badges
+  const badges: Badge[] = [
+    {
+      id: 'first_blood',
+      name: 'First Blood',
+      desc: 'Complete your first PSAT practice question',
+      icon: '🎯',
+      unlocked: attempts.length >= 1,
+      progress: `${Math.min(attempts.length, 1)}/1`
+    },
+    {
+      id: 'streak_3',
+      name: 'Consistent Scholar',
+      desc: 'Maintain a 3-day practice streak',
+      icon: '🔥',
+      unlocked: analytics.currentStreak >= 3,
+      progress: `${Math.min(analytics.currentStreak, 3)}/3 days`
+    },
+    {
+      id: 'speed_demon',
+      name: 'Lightning Solver',
+      desc: 'Solve 3 questions correctly in under 40 seconds each',
+      icon: '⚡',
+      unlocked: attempts.filter((a) => a.isCorrect && a.timeSpentSeconds <= 40).length >= 3,
+      progress: `${Math.min(attempts.filter((a) => a.isCorrect && a.timeSpentSeconds <= 40).length, 3)}/3`
+    },
+    {
+      id: 'math_ace',
+      name: 'Algebra Ace',
+      desc: 'Solve 5 Math Algebra questions correctly',
+      icon: '📐',
+      unlocked: attempts.filter((a) => a.isCorrect && a.domain === 'Algebra').length >= 5,
+      progress: `${Math.min(attempts.filter((a) => a.isCorrect && a.domain === 'Algebra').length, 5)}/5`
+    },
+    {
+      id: 'grammar_guru',
+      name: 'Grammar Virtuoso',
+      desc: 'Master Standard English Conventions with 80%+ accuracy',
+      icon: '✍️',
+      unlocked: (analytics.domainProficiency['Standard English Conventions']?.accuracyPercent || 0) >= 80,
+      progress: `${analytics.domainProficiency['Standard English Conventions']?.accuracyPercent || 0}%/80%`
+    },
+    {
+      id: 'century_club',
+      name: 'Century Club',
+      desc: 'Accumulate 1,000 Total XP',
+      icon: '👑',
+      unlocked: totalXp >= 1000,
+      progress: `${Math.min(totalXp, 1000)}/1000 XP`
+    }
+  ];
+
+  const unlockedCount = badges.filter((b) => b.unlocked).length;
+
+  return (
+    <>
+      {/* Student Rank & XP Bar Widget (Only shown to authenticated users) */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        {/* Left: Level & Title */}
+        <div className="flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-base shadow-xs shrink-0">
+            {currentTier.level}
+          </div>
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 font-bold">Verified Student Rank</span>
+              <span className="text-[10px] font-mono font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-200">
+                {totalXp.toLocaleString()} XP
+              </span>
+            </div>
+            <div className="text-base font-bold text-slate-900 flex items-center gap-2 tracking-tight">
+              <span>{currentTier.name}</span>
+              {onNavigateToRank && (
+                <button
+                  onClick={onNavigateToRank}
+                  className="text-[11px] font-bold text-blue-600 hover:text-blue-800 hover:underline cursor-pointer flex items-center gap-0.5"
+                >
+                  <span>Leaderboard</span>
+                  <ChevronRight className="w-3 h-3" />
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Center: Progress to next level */}
+        <div className="flex-1 w-full max-w-xs space-y-1.5">
+          <div className="flex justify-between text-xs font-semibold text-slate-600">
+            <span className="text-slate-500">Next: <strong className="text-slate-800">{nextTier.name}</strong></span>
+            <span className="text-blue-600 font-bold">{progressInTier}%</span>
+          </div>
+          <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200/80">
+            <div
+              className="h-full bg-blue-600 rounded-full transition-all duration-500"
+              style={{ width: `${progressInTier}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Right: Badges Trigger */}
+        <button
+          onClick={() => setShowBadgesModal(true)}
+          className="flex items-center gap-2 px-3.5 py-2 bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 rounded-xl text-xs font-semibold transition-all shrink-0 shadow-2xs cursor-pointer"
+        >
+          <Trophy className="w-4 h-4 text-amber-500" />
+          <span>Badges ({unlockedCount}/{badges.length})</span>
+          <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+        </button>
+      </div>
+
+      {/* Badges Modal */}
+      {showBadgesModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in">
+          <div
+            className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden animate-in zoom-in-95"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="p-4 sm:px-6 bg-slate-900 text-white flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Trophy className="w-5 h-5 text-amber-400" />
+                <div>
+                  <h3 className="font-extrabold text-base">Achievement Badges</h3>
+                  <p className="text-xs text-slate-400">Unlock mastery milestones as you prepare</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowBadgesModal(false)}
+                className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Guest Session Notice */}
+            {isGuest && (
+              <div className="px-5 py-3 bg-amber-50 border-b border-amber-200/80 flex items-center justify-between gap-3 text-amber-950">
+                <div className="flex items-center gap-2 text-xs">
+                  <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0" />
+                  <span>
+                    <strong>Guest Session:</strong> Badges unlocked now are active for this browser session. Sign in to permanently track your badges and streaks across devices.
+                  </span>
+                </div>
+                {onOpenAuthModal && (
+                  <button
+                    onClick={() => {
+                      setShowBadgesModal(false);
+                      onOpenAuthModal();
+                    }}
+                    className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold text-xs shrink-0 cursor-pointer"
+                  >
+                    Save Progress
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Badges Grid */}
+            <div className="p-5 sm:p-6 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              {badges.map((b) => (
+                <div
+                  key={b.id}
+                  className={`p-4 rounded-xl border flex items-start gap-3 transition-all ${
+                    b.unlocked
+                      ? 'bg-amber-50/40 border-amber-200 shadow-2xs'
+                      : 'bg-slate-50/80 border-slate-200 opacity-60'
+                  }`}
+                >
+                  <div className="text-2xl p-2 bg-white rounded-xl border border-slate-200 shadow-2xs shrink-0">
+                    {b.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-1">
+                      <h4 className="font-bold text-xs text-slate-900 truncate">{b.name}</h4>
+                      {b.unlocked && (
+                        <span className="text-[10px] font-bold text-amber-800 bg-amber-100 px-1.5 py-0.5 rounded">
+                          Unlocked
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[11px] text-slate-600 leading-snug mt-0.5">{b.desc}</p>
+                    <div className="text-[10px] font-mono text-slate-400 font-bold mt-1.5">
+                      Progress: {b.progress}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div className="p-3 bg-slate-50 border-t border-slate-200 flex justify-end">
+              <button
+                onClick={() => setShowBadgesModal(false)}
+                className="px-4 py-2 bg-slate-900 text-white font-bold text-xs rounded-xl hover:bg-slate-800 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};

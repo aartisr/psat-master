@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PSAT Master - Vercel Deployment & Environment Variables Guide</title>
+    <meta name="description" content="A comprehensive developer reference guide detailing environment variables, Vite configurations, and step-by-step Vercel deployment procedures for the PSAT Master platform." />
+    <meta property="og:title" content="PSAT Master - Vercel Deployment & Environment Variables Guide" />
+    <meta property="og:description" content="A comprehensive developer reference guide detailing environment variables, Vite configurations, and step-by-step Vercel deployment procedures for the PSAT Master platform." />
+    <link rel="stylesheet" href="site.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <script>
+      // Forcefully unregister any legacy service workers to prevent PWA caching conflicts
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for (var i = 0; i < registrations.length; i++) {
+            registrations[i].unregister();
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">P</div>
+          <div>
+            <div>PSAT Master</div>
+            <small>Community & Documentation Hub</small>
+          </div>
+        </div>
+        <nav class="link-row" aria-label="Primary links">
+          <a class="pill" href="https://psat-master.vercel.app">Main Web App</a>
+          <a class="pill" href="index.html">Documentation Home</a>
+          <a class="pill" href="https://github.com/aartisr/psat-master">Repository</a>
+          <a class="pill" href="repo-story.html">Philosophy Story</a>
+          <a class="pill" href="deployment.html" style="border-color: var(--card-hover-border); color: #ffffff; background: rgba(255,255,255,0.06);">Deployment Guide</a>
+          <a class="pill" href="author-aarti-s-ravikumar.html">Maker Bio</a>
+          <a class="pill" href="backlinks.html">Backlinks</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <div class="eyebrow">Developer Architecture</div>
+        <h1>Deployment &amp; Environment Variables Guide</h1>
+        <p class="lede">
+          Welcome to the developer configuration manual. To support an offline-first experience with secure, server-side AI integrations (powered by Gemini), the PSAT Master suite utilizes a modern full-stack architecture. Learn how to configure your environment variables and deploy the application to Vercel in seconds.
+        </p>
+        <div class="cta-row">
+          <a class="button" href="https://vercel.com/new" target="_blank" rel="noopener">Deploy to Vercel Now</a>
+          <a class="ghost" href="https://github.com/aartisr/psat-master">Browse Codebase</a>
+        </div>
+      </section>
+
+      <main class="space-y-4" style="display: flex; flex-direction: column; gap: 32px;">
+        
+        <section class="section">
+          <h2>🔐 Environment Variables Overview</h2>
+          <p>
+            Because the application makes server-side AI calls (to prevent exposing your Gemini API Keys to the browser), these values must be configured inside your Vercel Dashboard under <strong>Settings &gt; Environment Variables</strong>.
+          </p>
+
+          <div class="feature-grid" style="margin-top: 24px;">
+            <div class="card" style="border-color: var(--card-hover-border);">
+              <div>
+                <strong>GEMINI_API_KEY</strong>
+                <p style="margin-top: 8px;">
+                  <code style="background: rgba(3,7,18,0.5);">Required (Secret)</code><br />
+                  The API token from Google AI Studio. Used for generating Socratic hints, AI Tutor responses, and deep breakdown paths.
+                </p>
+              </div>
+            </div>
+
+            <div class="card" style="border-color: var(--card-hover-border);">
+              <div>
+                <strong>APP_URL</strong>
+                <p style="margin-top: 8px;">
+                  <code style="background: rgba(3,7,18,0.5);">Required</code><br />
+                  The absolute web URL where your application is hosted (e.g., <code>https://psat-master.vercel.app</code>) to map API endpoints.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>🔥 Optional Firebase Configuration</h2>
+          <p>
+            PSAT Master operates entirely local-first out of the box using encrypted LocalStorage. If you want to configure <strong>optional persistent user accounts, diagnostic syncs, or community telemetry metrics</strong>, you can optionally connect a custom Firebase Firestore database by setting these variables:
+          </p>
+
+          <div class="feature-grid" style="margin-top: 20px;">
+            <div class="card">
+              <strong>VITE_FIREBASE_API_KEY</strong>
+              <p>Your public Firebase application API key.</p>
+            </div>
+            <div class="card">
+              <strong>VITE_FIREBASE_PROJECT_ID</strong>
+              <p>The unique project identifier of your Firestore instance.</p>
+            </div>
+            <div class="card">
+              <strong>VITE_FIREBASE_APP_ID</strong>
+              <p>The registered application identifier of your Firebase web app.</p>
+            </div>
+            <div class="card">
+              <strong>VITE_FIREBASE_AUTH_DOMAIN</strong>
+              <p>Authentication callback domain (e.g., <code>project-id.firebaseapp.com</code>).</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>🚀 Step-by-Step Vercel Setup Guide</h2>
+          <p>
+            Deploying PSAT Master is streamlined and takes fewer than 2 minutes. Follow these simple steps:
+          </p>
+          <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 16px; color: var(--muted);">
+            <p>
+              <strong>Step 1: Import Repository</strong><br />
+              Log into your Vercel Dashboard, click <strong>Add New &gt; Project</strong>, and import the <code>psat-master</code> repository.
+            </p>
+            <p>
+              <strong>Step 2: Configure Environment Variables</strong><br />
+              Go to the <strong>Environment Variables</strong> tab and add your keys:
+              <pre><code>GEMINI_API_KEY = "your_google_api_key_here"
+APP_URL = "https://your-app-subdomain.vercel.app"</code></pre>
+            </p>
+            <p>
+              <strong>Step 3: Keep Default Build Command</strong><br />
+              The build settings are pre-configured inside the repository. Vercel automatically detects Vite and Node.js to bundle and serve your production instance.
+            </p>
+            <p>
+              <strong>Step 4: Deploy</strong><br />
+              Click <strong>Deploy</strong>. Vercel will build the static assets, compile the server-side API proxy handlers, and deploy your site to a globally distributed edge network!
+            </p>
+          </div>
+        </section>
+
+      </main>
+
+      <footer class="footerbar">
+        <div>
+          <strong>PSAT Master</strong>
+          <div>An open, public good for the student at the threshold.</div>
+        </div>
+        <div class="link-row">
+          <a class="pill" href="index.html">Back to Home</a>
+          <a class="pill" href="https://psat-master.vercel.app">Launch App</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

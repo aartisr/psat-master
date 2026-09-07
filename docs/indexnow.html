@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IndexNow Optimization Pipeline | PSAT Master</title>
+    <meta name="description" content="Technical guide for the IndexNow discovery pipeline of PSAT Master, enabling real-time search engine crawling." />
+    <link rel="canonical" href="https://aartisr.github.io/psat-master/indexnow.html" />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">I</div>
+          <div>
+            <div>PSAT Master</div>
+            <small>IndexNow Search Optimization</small>
+          </div>
+        </div>
+        <nav class="link-row">
+          <a class="pill" href="https://psat-master.vercel.app">Main Web App</a>
+          <a class="pill" href="index.html">Hub Home</a>
+          <a class="pill" href="deployment.html">Deployment Guide</a>
+          <a class="pill" href="repo-story.html">Philosophy Story</a>
+          <a class="pill" href="author-aarti-s-ravikumar.html">Maker Bio</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <div class="eyebrow">Search Engine Telemetry</div>
+        <h1>Instant indexing for open education.</h1>
+        <p class="lede">
+          By utilizing the IndexNow protocol, we notify search engines immediately whenever we publish new math formulas, sample exams, or cheat sheets, bypassing slow crawl cycles and bringing free resources directly to learners.
+        </p>
+        <div class="cta-row" style="margin-top: 22px;">
+          <a class="button" href="https://psat-master.vercel.app">Launch Main Web App</a>
+          <a class="ghost" href="repo-story.html">Philosophy Story</a>
+          <a class="ghost" href="backlinks.html">Explore Backlink Map</a>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>The Verification & Submission Loop</h2>
+        <p>
+          Since GitHub Pages serves static resources directly from the <code>docs/</code> directory of our main branch, the IndexNow verification token is hosted directly at <code>https://aartisr.github.io/psat-master/indexnow-key.txt</code>.
+        </p>
+        <div class="feature-grid">
+          <div class="card">
+            <strong>1. Build the Key File</strong>
+            <p>Generate and write the security key locally by running:</p>
+            <code>INDEXNOW_KEY=your-key npm run indexnow:publish-key</code>
+          </div>
+          <div class="card">
+            <strong>2. Host & Verify the URL</strong>
+            <p>Ensure that search crawlers can reach the raw key value cleanly at:</p>
+            <a href="https://aartisr.github.io/psat-master/indexnow-key.txt">View Active Verification Key</a>
+          </div>
+          <div class="card">
+            <strong>3. Broadcast Updates</strong>
+            <p>Ping the search engine registry to queue immediate indexing for all site nodes:</p>
+            <code>INDEXNOW_KEY=your-key npm run indexnow</code>
+          </div>
+          <div class="card">
+            <strong>4. Core Alignment</strong>
+            <p>Every newly indexed node guides search traffic back to the primary learning engine:</p>
+            <a href="https://psat-master.vercel.app">Launch Study Suite</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Submission Specifications</h2>
+        <p>
+          Our automated submission scripts identify canonical paths within the PSAT Master platform (such as our practice modules, formula grids, and documentation landing spots) and queue them directly. This guarantees our educational resources remain visible, reliable, and reachable for search queries worldwide.
+        </p>
+      </section>
+
+      <footer class="footerbar">
+        <div>
+          <strong>PSAT Master</strong>
+          <div>Designed with care by Aarti S. Ravikumar as a public learning sanctuary.</div>
+        </div>
+        <div class="link-row">
+          <a class="pill" href="https://psat-master.vercel.app">Launch App</a>
+          <a class="pill" href="https://github.com/aartisr/psat-master">GitHub Repo</a>
+          <a class="pill" href="https://ai-aarti.com">Aarti S. Ravikumar</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aartisr.github.io/psat-master/sitemap.xml

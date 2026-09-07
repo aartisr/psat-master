@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Suppress benign [vite] websocket connection notices and provide silent HMR stub
+      (function() {
+        var origWebSocket = window.WebSocket;
+        function isViteHmr(url, protocols) {
+          if (protocols === 'vite-hmr' || protocols === 'vite-ping') return true;
+          if (Array.isArray(protocols) && (protocols.indexOf('vite-hmr') !== -1 || protocols.indexOf('vite-ping') !== -1)) return true;
+          if (typeof url === 'string' && (url.indexOf('vite-hmr') !== -1 || (url.indexOf('token=') !== -1 && (url.indexOf('ws://') !== -1 || url.indexOf('wss://') !== -1)))) return true;
+          return false;
+        }
+        function DummyViteWebSocket(url, protocols) {
+          var target = new EventTarget();
+          this.url = url;
+          this.readyState = 1;
+          this.protocol = typeof protocols === 'string' ? protocols : (Array.isArray(protocols) ? protocols[0] : '');
+          this.extensions = '';
+          this.bufferedAmount = 0;
+          this.binaryType = 'blob';
+          this.send = function() {};
+          this.close = function() { this.readyState = 3; };
+          this.addEventListener = target.addEventListener.bind(target);
+          this.removeEventListener = target.removeEventListener.bind(target);
+          this.dispatchEvent = target.dispatchEvent.bind(target);
+          var self = this;
+          setTimeout(function() {
+            if (self.readyState === 1) {
+              var openEvt = new Event('open');
+              if (typeof self.onopen === 'function') self.onopen(openEvt);
+              self.dispatchEvent(openEvt);
+            }
+          }, 5);
+        }
+        DummyViteWebSocket.CONNECTING = 0;
+        DummyViteWebSocket.OPEN = 1;
+        DummyViteWebSocket.CLOSING = 2;
+        DummyViteWebSocket.CLOSED = 3;
+
+        if (origWebSocket) {
+          window.WebSocket = function(url, protocols) {
+            if (isViteHmr(url, protocols)) {
+              return new DummyViteWebSocket(url, protocols);
+            }
+            return new origWebSocket(url, protocols);
+          };
+          window.WebSocket.prototype = origWebSocket.prototype;
+          window.WebSocket.CONNECTING = 0;
+          window.WebSocket.OPEN = 1;
+          window.WebSocket.CLOSING = 2;
+          window.WebSocket.CLOSED = 3;
+        }
+
+        function isViteMsg(msg) {
+          if (!msg) return false;
+          var str = typeof msg === 'string' ? msg : (msg && msg.message ? msg.message : String(msg));
+          return str.indexOf('[vite]') !== -1 || str.indexOf('websocket') !== -1;
+        }
+
+        window.addEventListener('unhandledrejection', function(event) {
+          if (event && (isViteMsg(event.reason) || (event.reason && isViteMsg(event.reason.message)))) {
+            event.preventDefault();
+            if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+          }
+        }, true);
+
+        window.addEventListener('error', function(event) {
+          if (event && (isViteMsg(event.message) || isViteMsg(event.error))) {
+            event.preventDefault();
+            if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+          }
+        }, true);
+
+        var origError = console.error;
+        var origWarn = console.warn;
+        console.error = function() {
+          for (var i = 0; i < arguments.length; i++) {
+            if (isViteMsg(arguments[i])) return;
+          }
+          origError.apply(console, arguments);
+        };
+        console.warn = function() {
+          for (var i = 0; i < arguments.length; i++) {
+            if (isViteMsg(arguments[i])) return;
+          }
+          origWarn.apply(console, arguments);
+        };
+      })();
+    </script>
+    <title>PSAT Master - Digital PSAT/NMSQT &amp; SAT Prep Platform</title>
+    <meta name="description" content="An ultra-intuitive, world-class Digital PSAT/NMSQT &amp; SAT practice suite featuring adaptive smart drills, comprehensive question bank, step-by-step AI breakdowns, interactive graphing, Desmos-style scientific calculator, formula cheat-sheets, error notebook, and analytics." />
+    <meta name="keywords" content="PSAT prep, Digital PSAT, PSAT/NMSQT, SAT prep, practice questions, adaptive drills, question bank, mistake notebook, math cheat sheets, analytics, study tools" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta name="googlebot" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <link rel="canonical" href="/" />
+    <meta property="og:title" content="PSAT Master - Digital PSAT/NMSQT &amp; SAT Prep Platform" />
+    <meta property="og:description" content="An ultra-intuitive, world-class Digital PSAT/NMSQT &amp; SAT practice suite featuring adaptive smart drills, comprehensive question bank, step-by-step AI breakdowns, interactive graphing, Desmos-style scientific calculator, formula cheat-sheets, error notebook, and analytics." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="PSAT Master" />
+    <meta property="og:url" content="/" />
+    <meta property="og:image" content="/og-image.svg" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PSAT Master | Digital PSAT/NMSQT & SAT Prep Platform" />
+    <meta name="twitter:description" content="Adaptive PSAT/NMSQT and SAT practice with a 2,900-question bank, smart drills, analytics, and focused review tools." />
+    <meta name="twitter:image" content="/og-image.svg" />
+    <meta name="application-name" content="PSAT Master" />
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <script>
+      // Automatically redirect GitHub Pages requests to the dedicated /docs documentation portal
+      if (window.location.hostname.indexOf('github.io') !== -1) {
+        // Forcefully unregister any active service workers on github.io to clear old PWA caching
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for (var i = 0; i < registrations.length; i++) {
+              registrations[i].unregister();
+            }
+          });
+        }
+        var path = window.location.pathname;
+        if (!path.endsWith('/')) {
+          path += '/';
+        }
+        if (path.indexOf('/docs/') === -1) {
+          window.location.replace(window.location.origin + path + 'docs/');
+        }
+      }
+    </script>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="PSAT Master" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" crossorigin="anonymous">
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased selection:bg-indigo-100 selection:text-indigo-900">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
