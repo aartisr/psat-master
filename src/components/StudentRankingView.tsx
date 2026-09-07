@@ -59,36 +59,6 @@ export const StudentRankingView: React.FC<StudentRankingViewProps> = ({
   const [selectedDivision, setSelectedDivision] = useState<'overall' | 'accuracy' | 'streak'>('overall');
   const [realLeaderboard, setRealLeaderboard] = useState<LeaderboardEntry[]>([]);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      // Fetch others
-      fetchLeaderboard().then(entries => {
-        const mapped = entries.filter(e => e.userId !== currentUser?.uid).map((e, idx) => ({
-          rank: idx + 1,
-          name: e.displayName || 'Anonymous Scholar',
-          avatarBg: 'bg-slate-200 text-slate-800',
-          level: e.level || 1,
-          tierName: e.tierName || 'PSAT Novice',
-          totalXp: e.totalXp || 0,
-          accuracy: e.accuracy || 0,
-          streak: e.streak || 0,
-          isCurrentUser: false
-        }));
-        setRealLeaderboard(mapped);
-      });
-      
-      // Sync self
-      syncLeaderboardEntry(currentUser!.uid, {
-        displayName: currentUser?.displayName || currentUser?.email?.split('@')[0] || 'You (Verified Scholar)',
-        level: currentTier.level,
-        tierName: currentTier.name,
-        totalXp: totalXp,
-        accuracy: analytics.overallAccuracy,
-        streak: streak
-      });
-    }
-  }, [isAuthenticated, totalXp, currentUser, analytics.overallAccuracy, streak, currentTier.level, currentTier.name]);
-
 
   // Compute authenticated XP
   // 50 XP per correct question, 10 XP per attempt, 100 XP per streak day
@@ -227,6 +197,36 @@ export const StudentRankingView: React.FC<StudentRankingViewProps> = ({
     streak: streak,
     isCurrentUser: true
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      // Fetch others
+      fetchLeaderboard().then(entries => {
+        const mapped = entries.filter(e => e.userId !== currentUser?.uid).map((e, idx) => ({
+          rank: idx + 1,
+          name: e.displayName || 'Anonymous Scholar',
+          avatarBg: 'bg-slate-200 text-slate-800',
+          level: e.level || 1,
+          tierName: e.tierName || 'PSAT Novice',
+          totalXp: e.totalXp || 0,
+          accuracy: e.accuracy || 0,
+          streak: e.streak || 0,
+          isCurrentUser: false
+        }));
+        setRealLeaderboard(mapped);
+      });
+      
+      // Sync self
+      syncLeaderboardEntry(currentUser!.uid, {
+        displayName: currentUser?.displayName || currentUser?.email?.split('@')[0] || 'You (Verified Scholar)',
+        level: currentTier.level,
+        tierName: currentTier.name,
+        totalXp: totalXp,
+        accuracy: analytics.overallAccuracy,
+        streak: streak
+      });
+    }
+  }, [isAuthenticated, totalXp, currentUser, analytics.overallAccuracy, streak, currentTier.level, currentTier.name]);
 
   // Sort and assemble leaderboard
   const displayLeaderboard = [...baseLeaderboard];
