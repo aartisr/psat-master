@@ -18,7 +18,8 @@ import {
   Copy,
   Check,
   Globe,
-  ShieldAlert
+  ShieldAlert,
+  Loader2
 } from 'lucide-react';
 import { 
   loginWithGoogle, 
@@ -185,9 +186,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in">
       <div 
-        className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden animate-in zoom-in-95"
+        className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden relative animate-in zoom-in-95"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* BLOCKING LOADING OVERLAY */}
+        {isLoading && (
+          <div className="absolute inset-0 z-[100] bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center animate-in fade-in">
+            <Loader2 className="w-12 h-12 text-blue-600 animate-spin mb-4" />
+            <div className="text-base font-bold text-slate-800">Authenticating...</div>
+            <div className="text-xs text-slate-500 mt-2 font-medium">Securing your session, please wait.</div>
+          </div>
+        )}
+
         {/* Header with gradient branding */}
         <div className="p-6 bg-slate-900 text-white relative">
           <button
